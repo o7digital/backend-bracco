@@ -1,0 +1,62 @@
+---
+import { documentAutomationCards, documentTemplates } from "../data/site";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section class="space-y-7">
+  <SectionHeading
+    eyebrow="Document Automation"
+    title="Templates reduce repetitive packet assembly before approvals begin."
+    description="The platform keeps recurring document patterns visible so teams can automate structure and routing without automating decision quality."
+  />
+
+  <div class="grid gap-6 xl:grid-cols-[1.25fr_0.85fr]">
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        documentAutomationCards.map((card) => (
+          <article class="surface p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-bracco-green">{card.template}</p>
+                <h3 class="mt-3 text-2xl font-semibold tracking-tight text-bracco-ink">{card.title}</h3>
+              </div>
+              <span class="rounded-full border border-bracco-line bg-bracco-mint px-3 py-2 text-sm font-medium text-bracco-green">
+                {card.automationLevel.replaceAll("_", " ")}
+              </span>
+            </div>
+            <p class="mt-4 text-sm leading-6 text-bracco-muted">{card.note}</p>
+            <div class="mt-6 flex items-center justify-between text-sm text-bracco-muted">
+              <span>{card.owner}</span>
+              <span>{card.lastUpdated}</span>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <aside class="surface p-6">
+      <p class="text-sm font-semibold uppercase tracking-[0.22em] text-bracco-green">Template library</p>
+      <h3 class="mt-3 text-2xl font-semibold tracking-tight text-bracco-ink">Reusable packs by department</h3>
+
+      <div class="mt-6 space-y-4">
+        {
+          documentTemplates.map((template) => (
+            <article class="rounded-[24px] border border-bracco-line/80 bg-bracco-stone/70 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-lg font-semibold tracking-tight text-bracco-ink">{template.name}</h4>
+                  <p class="mt-1 text-sm text-bracco-muted">{template.coverage}</p>
+                </div>
+                <span class="label-chip">{template.code}</span>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <span class="label-chip">{template.department.replaceAll("_", " ")}</span>
+                {template.languages.map((language) => <span class="label-chip">{language}</span>)}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </aside>
+  </div>
+</section>

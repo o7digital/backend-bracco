@@ -1,0 +1,23 @@
+{
+  "name": "bracco-process-hub",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.32.1",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "pnpm --filter @bracco/web dev",
+    "dev:api": "pnpm --filter @bracco/api dev",
+    "build": "turbo build",
+    "build:web": "pnpm --filter @bracco/web build",
+    "build:api": "pnpm --filter @bracco/api build",
+    "typecheck": "turbo typecheck",
+    "check": "pnpm build && pnpm typecheck"
+  },
+  "devDependencies": {
+    "turbo": "2.8.16",
+    "typescript": "5.9.3"
+  }
+}

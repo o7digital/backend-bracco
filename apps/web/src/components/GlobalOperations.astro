@@ -1,0 +1,63 @@
+---
+import { countryCoverage, languageCoverage } from "../data/site";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section class="space-y-7" id="global-coverage">
+  <SectionHeading
+    eyebrow="Multi-Country Overview"
+    title="Country teams keep local control while leadership keeps one regional picture."
+    description="Markets can operate in their own language and regulatory context without disappearing into disconnected trackers or duplicated approval packets."
+  />
+
+  <div class="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {
+        countryCoverage.map((country) => (
+          <article class="surface p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-bracco-green">{country.region}</p>
+                <h3 class="mt-2 text-2xl font-semibold tracking-tight text-bracco-ink">{country.name}</h3>
+              </div>
+              <span class="label-chip">{country.code}</span>
+            </div>
+            <p class="mt-4 text-sm leading-6 text-bracco-muted">{country.coordinationModel}</p>
+            <div class="mt-5 space-y-3 text-sm">
+              <div class="rounded-[18px] bg-bracco-stone/70 p-3">
+                <p class="font-semibold text-bracco-ink">Primary language</p>
+                <p class="mt-1 text-bracco-muted">{country.defaultLanguage}</p>
+              </div>
+              <div class="rounded-[18px] bg-bracco-stone/70 p-3">
+                <p class="font-semibold text-bracco-ink">Compliance focus</p>
+                <p class="mt-1 text-bracco-muted">{country.complianceFocus}</p>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <aside class="surface p-6">
+      <p class="text-sm font-semibold uppercase tracking-[0.22em] text-bracco-green">Language coverage</p>
+      <h3 class="mt-3 text-2xl font-semibold tracking-tight text-bracco-ink">Translation-aware workflow delivery</h3>
+
+      <div class="mt-6 space-y-4">
+        {
+          languageCoverage.map((language) => (
+            <article class="rounded-[24px] border border-bracco-line/80 bg-bracco-stone/70 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="text-lg font-semibold tracking-tight text-bracco-ink">{language.language}</h4>
+                  <p class="mt-1 text-sm text-bracco-muted">{language.translatorMode}</p>
+                </div>
+                <span class="label-chip">{language.countries.join(" / ")}</span>
+              </div>
+              <p class="mt-4 text-sm leading-6 text-bracco-muted">{language.complianceSupport}</p>
+            </article>
+          ))
+        }
+      </div>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,90 @@
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+@import "@fontsource/newsreader/400.css";
+@import "@fontsource/newsreader/500.css";
+@import "@fontsource/newsreader/600.css";
+@import "tailwindcss";
+
+@theme {
+  --color-bracco-ink: #11241b;
+  --color-bracco-forest: #164735;
+  --color-bracco-green: #1f7b58;
+  --color-bracco-mint: #d7ebe2;
+  --color-bracco-lime: #d7ef85;
+  --color-bracco-line: #d3ddd7;
+  --color-bracco-muted: #64756e;
+  --color-bracco-stone: #f3f7f3;
+  --color-bracco-surface: #fbfdfb;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+  --shadow-panel: 0 22px 70px rgba(17, 36, 27, 0.08);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background-color: var(--color-bracco-stone);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(31, 123, 88, 0.22), transparent 34%),
+    radial-gradient(circle at 88% 4%, rgba(215, 239, 133, 0.3), transparent 18%),
+    linear-gradient(180deg, #f8fbf8 0%, #edf4ee 100%);
+  color: var(--color-bracco-ink);
+  font-family: var(--font-sans);
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(17, 36, 27, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 36, 27, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  content: "";
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.34), transparent 82%);
+  pointer-events: none;
+}
+
+@layer base {
+  ::selection {
+    background: rgba(31, 123, 88, 0.2);
+  }
+}
+
+@layer components {
+  .surface {
+    @apply rounded-[28px] border border-bracco-line/80 bg-white/82 shadow-[0_22px_70px_rgba(17,36,27,0.08)] backdrop-blur-sm;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-bracco-line bg-white/76 px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-bracco-green;
+  }
+
+  .section-title {
+    @apply font-serif text-4xl leading-tight tracking-tight text-bracco-ink md:text-[3rem];
+  }
+
+  .section-copy {
+    @apply max-w-2xl text-base leading-7 text-bracco-muted md:text-lg;
+  }
+
+  .metric-tile {
+    @apply rounded-[24px] border border-bracco-line/80 bg-bracco-stone/70 p-5;
+  }
+
+  .kpi-value {
+    @apply text-3xl font-semibold tracking-tight text-bracco-ink;
+  }
+
+  .label-chip {
+    @apply rounded-full border border-bracco-line bg-white px-3 py-1 text-sm text-bracco-muted;
+  }
+}

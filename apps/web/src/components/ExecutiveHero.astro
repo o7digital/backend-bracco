@@ -1,0 +1,83 @@
+---
+import { appMeta, dashboardMetrics, executiveBriefings } from "../data/site";
+
+const toneClasses = {
+  up: "text-bracco-green",
+  neutral: "text-bracco-muted",
+  down: "text-amber-700",
+};
+---
+
+<section class="surface overflow-hidden p-7 md:p-10">
+  <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+    <div class="space-y-8">
+      <div class="space-y-5">
+        <span class="eyebrow">Executive Hero</span>
+        <div class="space-y-5">
+          <h1 class="max-w-4xl font-serif text-5xl leading-[0.96] tracking-tight text-bracco-ink md:text-7xl">
+            {appMeta.name}
+          </h1>
+          <p class="max-w-2xl text-lg leading-8 text-bracco-muted md:text-xl">
+            Align approvals, documents, and executive decisions across markets with one calm operating layer for
+            Commercial, Procurement, Finance, Legal, and Executive Management.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a
+          class="inline-flex items-center rounded-full bg-bracco-forest px-5 py-3 text-sm font-semibold text-white transition hover:bg-bracco-green"
+          href="#workflow-overview"
+        >
+          Review workflow activity
+        </a>
+        <a
+          class="inline-flex items-center rounded-full border border-bracco-line bg-white/80 px-5 py-3 text-sm font-semibold text-bracco-ink transition hover:border-bracco-green hover:text-bracco-green"
+          href="#global-coverage"
+        >
+          Explore country coverage
+        </a>
+        <span class="inline-flex items-center rounded-full border border-bracco-line bg-bracco-stone/70 px-4 py-3 text-sm text-bracco-muted">
+          Placeholder corporate content only
+        </span>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {
+          dashboardMetrics.map((metric) => (
+            <article class="metric-tile">
+              <p class="text-sm font-medium text-bracco-muted">{metric.label}</p>
+              <p class="kpi-value mt-3">{metric.value}</p>
+              <p class={`mt-2 text-sm font-medium ${toneClasses[metric.tone]}`}>{metric.delta}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <aside class="rounded-[30px] bg-bracco-ink p-6 text-white shadow-[0_24px_80px_rgba(17,36,27,0.22)]">
+      <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-5">
+        <div>
+          <p class="text-sm uppercase tracking-[0.24em] text-bracco-lime">Weekly operating brief</p>
+          <h2 class="mt-2 text-2xl font-semibold tracking-tight">Cross-functional command view</h2>
+        </div>
+        <div class="rounded-full border border-white/12 bg-white/6 px-3 py-2 text-sm text-white/70">
+          11 markets in view
+        </div>
+      </div>
+
+      <div class="mt-6 space-y-4">
+        {
+          executiveBriefings.map((brief) => (
+            <article class="rounded-[24px] border border-white/10 bg-white/6 p-4">
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-bracco-lime/90">{brief.owner}</p>
+              <h3 class="mt-3 text-lg font-semibold">{brief.title}</h3>
+              <p class="mt-2 text-sm leading-6 text-white/72">{brief.message}</p>
+              <p class="mt-4 text-sm text-white/56">{brief.eta}</p>
+            </article>
+          ))
+        }
+      </div>
+    </aside>
+  </div>
+</section>
