@@ -141,7 +141,7 @@ body::before {
 
 .crm-theme .crm-nav-link {
   border-radius: 0.75rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.7rem 1rem;
   transition: background 120ms ease, box-shadow 120ms ease, color 120ms ease;
 }
 
@@ -160,6 +160,15 @@ body::before {
 .crm-theme .crm-app-header {
   border-color: color-mix(in srgb, var(--crm-foreground) 6%, transparent);
   background: color-mix(in srgb, var(--crm-surface) 88%, transparent);
+}
+
+.crm-theme .crm-nav-strip {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.crm-theme .crm-nav-strip::-webkit-scrollbar {
+  display: none;
 }
 
 .crm-theme .crm-app-menu {

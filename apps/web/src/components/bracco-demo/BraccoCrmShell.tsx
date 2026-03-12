@@ -272,120 +272,109 @@ export default function BraccoCrmShell({ activeModule }: { activeModule: DemoMod
   return (
     <div className="crm-theme">
       <header className="crm-app-header sticky top-0 z-20 border-b backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="crm-brand-mark flex h-10 w-10 items-center justify-center rounded-xl font-black">
-              BR
+        <div className="mx-auto max-w-[1480px] px-4 py-4">
+          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex min-w-0 flex-1 items-center gap-4">
+              <div className="crm-brand-mark flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl font-black">
+                BR
+              </div>
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-xl font-semibold text-slate-50">Bracco Demo CRM</p>
+                  <Badge className="hidden border border-white/10 bg-white/5 text-slate-200 sm:inline-flex">
+                    CRM shell demo
+                  </Badge>
+                </div>
+                <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-400">{copy.appTagline}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-lg font-semibold">Bracco Demo CRM</p>
-              <p className="text-xs text-slate-400">{copy.appTagline}</p>
-            </div>
-          </div>
 
-          <nav className="hidden items-center gap-2 text-sm md:flex">
-            {demoNav.map((item) => {
-              const Icon = iconMap[item.id];
-              const active = item.id === activeModule;
-
-              return (
-                <a
-                  className={cn(
-                    "crm-nav-link flex items-center gap-2",
-                    active ? "crm-nav-link-active" : "text-slate-300 hover:bg-white/5",
-                  )}
-                  href={item.href}
-                  key={item.id}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </a>
-              );
-            })}
-          </nav>
-
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <div className="hidden items-center gap-1 rounded-xl border border-white/10 bg-white/5 p-1 lg:flex">
-              {(["es", "en"] as const).map((option) => (
+            <div className="flex flex-wrap items-center gap-2 xl:justify-end">
+              <div className="hidden items-center gap-1 rounded-xl border border-white/10 bg-white/5 p-1 lg:flex">
+                {(["es", "en"] as const).map((option) => (
+                  <button
+                    className={cn(
+                      "rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] transition",
+                      language === option
+                        ? "bg-emerald-500/15 text-emerald-100 shadow-[inset_0_0_0_1px_rgba(74,222,128,0.28)]"
+                        : "text-slate-400 hover:bg-white/5 hover:text-slate-200",
+                    )}
+                    key={option}
+                    onClick={() => setLanguage(option)}
+                    type="button"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+              <a className="crm-btn-primary text-sm" href="/demo/workflow">
+                {copy.openWorkflow}
+              </a>
+              <a className="crm-btn-secondary text-sm" href="/">
+                {copy.landing}
+              </a>
+              <div className="relative" ref={accountRef}>
                 <button
-                  className={cn(
-                    "rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] transition",
-                    language === option
-                      ? "bg-emerald-500/15 text-emerald-100 shadow-[inset_0_0_0_1px_rgba(74,222,128,0.28)]"
-                      : "text-slate-400 hover:bg-white/5 hover:text-slate-200",
-                  )}
-                  key={option}
-                  onClick={() => setLanguage(option)}
+                  aria-expanded={accountOpen}
+                  aria-haspopup="menu"
+                  className="crm-btn-secondary text-sm"
+                  onClick={() => setAccountOpen((open) => !open)}
                   type="button"
                 >
-                  {option}
+                  {copy.myAccount}
                 </button>
-              ))}
-            </div>
-            <a className="crm-btn-primary text-sm" href="/demo/workflow">
-              {copy.openWorkflow}
-            </a>
-            <a className="crm-btn-secondary text-sm" href="/">
-              {copy.landing}
-            </a>
-            <div className="relative" ref={accountRef}>
-              <button
-                aria-expanded={accountOpen}
-                aria-haspopup="menu"
-                className="crm-btn-secondary text-sm"
-                onClick={() => setAccountOpen((open) => !open)}
-                type="button"
-              >
-                {copy.myAccount}
-              </button>
 
-              {accountOpen ? (
-                <div className="crm-app-menu absolute right-0 mt-2 w-64 overflow-hidden rounded-xl border shadow-lg shadow-black/30">
-                  <div className="px-4 py-3">
-                    <p className="text-sm font-semibold text-slate-100">Ana Morales</p>
-                    <p className="mt-1 text-xs text-slate-400">{copy.demoUser} · Ops Lead</p>
+                {accountOpen ? (
+                  <div className="crm-app-menu absolute right-0 mt-2 w-64 overflow-hidden rounded-xl border shadow-lg shadow-black/30">
+                    <div className="px-4 py-3">
+                      <p className="text-sm font-semibold text-slate-100">Ana Morales</p>
+                      <p className="mt-1 text-xs text-slate-400">{copy.demoUser} · Ops Lead</p>
+                    </div>
+                    <div className="h-px bg-white/10" />
+                    <div className="py-2">
+                      {accountMenu[language].map((item) => (
+                        <a
+                          className="block px-4 py-2 text-sm text-slate-200 hover:bg-white/5"
+                          href={item.href}
+                          key={item.label}
+                          onClick={() => setAccountOpen(false)}
+                          role="menuitem"
+                        >
+                          {item.label}
+                        </a>
+                      ))}
+                    </div>
                   </div>
-                  <div className="h-px bg-white/10" />
-                  <div className="py-2">
-                    {accountMenu[language].map((item) => (
-                      <a
-                        className="block px-4 py-2 text-sm text-slate-200 hover:bg-white/5"
-                        href={item.href}
-                        key={item.label}
-                        onClick={() => setAccountOpen(false)}
-                        role="menuitem"
-                      >
-                        {item.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
+                ) : null}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="mx-auto block max-w-7xl px-4 pb-4 md:hidden">
-          <nav className="flex flex-wrap gap-2 text-sm">
-            {demoNav.map((item) => {
-              const Icon = iconMap[item.id];
-              const active = item.id === activeModule;
+          <div className="mt-4 border-t border-white/8 pt-4">
+            <nav
+              aria-label="Bracco demo navigation"
+              className="crm-nav-strip flex items-center gap-2 overflow-x-auto pb-1 text-sm"
+            >
+              {demoNav.map((item) => {
+                const Icon = iconMap[item.id];
+                const active = item.id === activeModule;
 
-              return (
-                <a
-                  className={cn(
-                    "crm-nav-link flex items-center gap-2",
-                    active ? "crm-nav-link-active" : "text-slate-300 hover:bg-white/5",
-                  )}
-                  href={item.href}
-                  key={item.id}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </a>
-              );
-            })}
-          </nav>
+                return (
+                  <a
+                    className={cn(
+                      "crm-nav-link flex shrink-0 items-center gap-2 whitespace-nowrap",
+                      active ? "crm-nav-link-active" : "text-slate-300 hover:bg-white/5",
+                    )}
+                    href={item.href}
+                    key={item.id}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
         </div>
       </header>
 
