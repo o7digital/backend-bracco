@@ -15,7 +15,7 @@ import {
   Workflow,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -63,6 +63,79 @@ const iconMap: Record<DemoModuleId, LucideIcon> = {
   "ia-pulse": BrainCircuit,
   reporting: BarChart3,
   admin: Settings2,
+};
+
+type DemoLanguage = "es" | "en";
+
+const shellCopy: Record<
+  DemoLanguage,
+  {
+    appTagline: string;
+    internalBadge: string;
+    regionBadge: string;
+    languageBadge: string;
+    heroTitle: string;
+    heroDescription: string;
+    landing: string;
+    openWorkflow: string;
+    myAccount: string;
+    demoUser: string;
+    tenant: string;
+    region: string;
+    mode: string;
+    requestSearch: string;
+    contractSearch: string;
+  }
+> = {
+  es: {
+    appTagline: "Base PulseCRM adaptada · Mexico / USA · Datos ficticios",
+    internalBadge: "Demo interno Bracco",
+    regionBadge: "Contexto MX / USA",
+    languageBadge: "ES activo · EN listo",
+    heroTitle: "Base CRM real, no mockup vacio.",
+    heroDescription:
+      "Este demo conserva la landing de Bracco y mueve la experiencia principal a un shell CRM inspirado en o7 PulseCRM: mismo tono dark SaaS, navegación modular, cards operativas, tablas y UX centrada en workflow.",
+    landing: "Landing",
+    openWorkflow: "Abrir workflow",
+    myAccount: "Mi cuenta",
+    demoUser: "Usuario demo",
+    tenant: "Tenant",
+    region: "Región",
+    mode: "Modo",
+    requestSearch: "Buscar por solicitud, owner o mercado...",
+    contractSearch: "Buscar por contrato, owner o mercado...",
+  },
+  en: {
+    appTagline: "PulseCRM foundation adapted · Mexico / USA · Fake data only",
+    internalBadge: "Bracco internal demo",
+    regionBadge: "MX / USA context",
+    languageBadge: "EN active · ES ready",
+    heroTitle: "Using the CRM foundation, not a blank mockup.",
+    heroDescription:
+      "This demo keeps the Bracco landing page intact and moves the main experience into a real CRM-style shell inspired by o7 PulseCRM: same dark SaaS tone, module navigation, operational cards, tables, and workflow-first UX patterns.",
+    landing: "Landing",
+    openWorkflow: "Open workflow",
+    myAccount: "My account",
+    demoUser: "Demo user",
+    tenant: "Tenant",
+    region: "Region",
+    mode: "Mode",
+    requestSearch: "Search by request, owner, market...",
+    contractSearch: "Search by contract, owner, market...",
+  },
+};
+
+const accountMenu: Record<DemoLanguage, Array<{ href: string; label: string }>> = {
+  es: [
+    { href: "/demo/admin", label: "Perfil demo y roles" },
+    { href: "/demo/reporting", label: "Actividad y métricas" },
+    { href: "/demo/admin", label: "Etiquetas bilingües" },
+  ],
+  en: [
+    { href: "/demo/admin", label: "Demo profile and roles" },
+    { href: "/demo/reporting", label: "Activity and metrics" },
+    { href: "/demo/admin", label: "Bilingual labels" },
+  ],
 };
 
 function priorityTone(priority: DemoRequest["priority"]) {
@@ -132,11 +205,37 @@ function BoardCard({ item }: { item: DemoBoardItem }) {
 }
 
 export default function BraccoCrmShell({ activeModule }: { activeModule: DemoModuleId }) {
+  const [language, setLanguage] = useState<DemoLanguage>("es");
+  const [accountOpen, setAccountOpen] = useState(false);
   const [requestQuery, setRequestQuery] = useState("");
   const [contractQuery, setContractQuery] = useState("");
+  const accountRef = useRef<HTMLDivElement | null>(null);
 
   const activeMeta = demoModuleMeta[activeModule];
   const ActiveIcon = iconMap[activeModule];
+  const copy = shellCopy[language];
+
+  useEffect(() => {
+    const onPointerDown = (event: MouseEvent) => {
+      if (!accountOpen) {
+        return;
+      }
+
+      const target = event.target as Node | null;
+      if (!target) {
+        return;
+      }
+
+      if (accountRef.current?.contains(target)) {
+        return;
+      }
+
+      setAccountOpen(false);
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [accountOpen]);
 
   const filteredRequests = useMemo(() => {
     if (!requestQuery.trim()) {
@@ -180,7 +279,7 @@ export default function BraccoCrmShell({ activeModule }: { activeModule: DemoMod
             </div>
             <div>
               <p className="text-lg font-semibold">Bracco Demo CRM</p>
-              <p className="text-xs text-slate-400">Based on the o7 PulseCRM shell · Mexico / USA · Fake data only</p>
+              <p className="text-xs text-slate-400">{copy.appTagline}</p>
             </div>
           </div>
 
@@ -205,13 +304,63 @@ export default function BraccoCrmShell({ activeModule }: { activeModule: DemoMod
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <a className="crm-btn-secondary text-sm" href="/">
-              Landing
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <div className="hidden items-center gap-1 rounded-xl border border-white/10 bg-white/5 p-1 lg:flex">
+              {(["es", "en"] as const).map((option) => (
+                <button
+                  className={cn(
+                    "rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] transition",
+                    language === option
+                      ? "bg-emerald-500/15 text-emerald-100 shadow-[inset_0_0_0_1px_rgba(74,222,128,0.28)]"
+                      : "text-slate-400 hover:bg-white/5 hover:text-slate-200",
+                  )}
+                  key={option}
+                  onClick={() => setLanguage(option)}
+                  type="button"
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+            <a className="crm-btn-primary text-sm" href="/demo/workflow">
+              {copy.openWorkflow}
             </a>
-            <div className="crm-card px-3 py-2 text-right">
-              <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Demo user</p>
-              <p className="text-sm font-semibold text-slate-100">Ana Morales · Ops Lead</p>
+            <a className="crm-btn-secondary text-sm" href="/">
+              {copy.landing}
+            </a>
+            <div className="relative" ref={accountRef}>
+              <button
+                aria-expanded={accountOpen}
+                aria-haspopup="menu"
+                className="crm-btn-secondary text-sm"
+                onClick={() => setAccountOpen((open) => !open)}
+                type="button"
+              >
+                {copy.myAccount}
+              </button>
+
+              {accountOpen ? (
+                <div className="crm-app-menu absolute right-0 mt-2 w-64 overflow-hidden rounded-xl border shadow-lg shadow-black/30">
+                  <div className="px-4 py-3">
+                    <p className="text-sm font-semibold text-slate-100">Ana Morales</p>
+                    <p className="mt-1 text-xs text-slate-400">{copy.demoUser} · Ops Lead</p>
+                  </div>
+                  <div className="h-px bg-white/10" />
+                  <div className="py-2">
+                    {accountMenu[language].map((item) => (
+                      <a
+                        className="block px-4 py-2 text-sm text-slate-200 hover:bg-white/5"
+                        href={item.href}
+                        key={item.label}
+                        onClick={() => setAccountOpen(false)}
+                        role="menuitem"
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -250,31 +399,25 @@ export default function BraccoCrmShell({ activeModule }: { activeModule: DemoMod
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-3">
               <div className="flex flex-wrap gap-2">
-                <Badge className="border border-white/10 bg-white/5 text-slate-200">Bracco internal process demo</Badge>
-                <Badge className="border border-emerald-400/20 bg-emerald-500/10 text-emerald-200">ES / EN ready</Badge>
-                <Badge className="border border-cyan-400/20 bg-cyan-500/10 text-cyan-100">MX / USA context</Badge>
+                <Badge className="border border-white/10 bg-white/5 text-slate-200">{copy.internalBadge}</Badge>
+                <Badge className="border border-emerald-400/20 bg-emerald-500/10 text-emerald-200">{copy.languageBadge}</Badge>
+                <Badge className="border border-cyan-400/20 bg-cyan-500/10 text-cyan-100">{copy.regionBadge}</Badge>
               </div>
-              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                Reusing the CRM foundation, not a blank mockup.
-              </h1>
-              <p className="max-w-3xl text-sm leading-7 text-slate-300">
-                This demo keeps the Bracco landing page intact and moves the main experience into a real CRM-style shell
-                inspired by the existing o7 PulseCRM product: same dark SaaS tone, module navigation, operational cards,
-                tables, and workflow-first UX patterns.
-              </p>
+              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{copy.heroTitle}</h1>
+              <p className="max-w-3xl text-sm leading-7 text-slate-300">{copy.heroDescription}</p>
             </div>
 
             <div className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3 lg:w-[420px]">
               <div className="crm-card p-4">
-                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Tenant</p>
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">{copy.tenant}</p>
                 <p className="mt-2 font-semibold text-slate-100">Bracco Process Hub</p>
               </div>
               <div className="crm-card p-4">
-                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Region</p>
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">{copy.region}</p>
                 <p className="mt-2 font-semibold text-slate-100">Mexico + USA</p>
               </div>
               <div className="crm-card p-4">
-                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Mode</p>
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">{copy.mode}</p>
                 <p className="mt-2 font-semibold text-slate-100">Demo only</p>
               </div>
             </div>
@@ -429,7 +572,7 @@ export default function BraccoCrmShell({ activeModule }: { activeModule: DemoMod
                   <Input
                     className="border-white/10 bg-white/5 text-slate-100 placeholder:text-slate-500"
                     onChange={(event) => setRequestQuery(event.target.value)}
-                    placeholder="Search by request, owner, market..."
+                    placeholder={copy.requestSearch}
                     value={requestQuery}
                   />
                 </div>
@@ -653,7 +796,7 @@ export default function BraccoCrmShell({ activeModule }: { activeModule: DemoMod
                   <Input
                     className="border-white/10 bg-white/5 text-slate-100 placeholder:text-slate-500"
                     onChange={(event) => setContractQuery(event.target.value)}
-                    placeholder="Search by contract, owner, market..."
+                    placeholder={copy.contractSearch}
                     value={contractQuery}
                   />
                 </div>

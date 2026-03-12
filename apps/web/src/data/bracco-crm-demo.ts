@@ -101,17 +101,17 @@ export interface DemoAdminPanel {
 }
 
 export const demoNav: DemoNavItem[] = [
-  { id: "dashboard", href: "/demo", label: "Dashboard" },
+  { id: "dashboard", href: "/demo", label: "Dashboard / Tablero" },
   { id: "requests", href: "/demo/requests", label: "Solicitudes / Requests" },
-  { id: "workflow", href: "/demo/workflow", label: "Workflow" },
-  { id: "approvals", href: "/demo/approvals", label: "Approvals" },
+  { id: "workflow", href: "/demo/workflow", label: "Workflow / Flujo" },
+  { id: "approvals", href: "/demo/approvals", label: "Aprobaciones / Approvals" },
   { id: "procurement", href: "/demo/procurement", label: "Compras / Procurement" },
   { id: "finance", href: "/demo/finance", label: "Finanzas / Finance" },
-  { id: "legal", href: "/demo/legal", label: "Legal" },
+  { id: "legal", href: "/demo/legal", label: "Legal / Jurídico" },
   { id: "contracts", href: "/demo/contracts", label: "Contracts / NDA / Quotations" },
-  { id: "ia-pulse", href: "/demo/ia-pulse", label: "IA Pulse" },
-  { id: "reporting", href: "/demo/reporting", label: "Reporting" },
-  { id: "admin", href: "/demo/admin", label: "Admin" },
+  { id: "ia-pulse", href: "/demo/ia-pulse", label: "IA Pulse / Insights" },
+  { id: "reporting", href: "/demo/reporting", label: "Reporting / Reportes" },
+  { id: "admin", href: "/demo/admin", label: "Admin / Administración" },
 ];
 
 export const demoModuleMeta: Record<
@@ -119,78 +119,78 @@ export const demoModuleMeta: Record<
   { section: string; title: string; description: string }
 > = {
   dashboard: {
-    section: "Overview",
-    title: "Bracco Process CRM dashboard",
+    section: "Overview / Resumen",
+    title: "Bracco Process CRM dashboard / tablero",
     description:
       "A PulseCRM-style command center for Mexico and USA internal process requests, approvals, contracts, and follow-through.",
   },
   requests: {
-    section: "Requests",
+    section: "Requests / Solicitudes",
     title: "Solicitudes / Requests",
     description:
       "A live request register for internal process submissions, with owners, priorities, market context, and the current workflow stage.",
   },
   workflow: {
-    section: "Workflow",
-    title: "Workflow board",
+    section: "Workflow / Flujo",
+    title: "Workflow board / tablero de flujo",
     description:
       "The Bracco approval route reuses the CRM kanban mentality: every request is visible from creation to closure.",
   },
   approvals: {
-    section: "Approvals",
-    title: "Approval queue",
+    section: "Approvals / Aprobaciones",
+    title: "Approval queue / cola de aprobación",
     description:
       "Department leads see what needs action now, which SLA is slipping, and what is ready for DG sign-off.",
   },
   procurement: {
-    section: "Procurement",
+    section: "Procurement / Compras",
     title: "Compras / Procurement desk",
     description:
       "Vendor packs, quotations, and sourcing validations are grouped by market and owner for demo purposes.",
   },
   finance: {
-    section: "Finance",
+    section: "Finance / Finanzas",
     title: "Finanzas / Finance review",
     description:
       "Budget gates, threshold approvals, and spend checks mirror the existing CRM operational style with fake data only.",
   },
   legal: {
-    section: "Legal",
-    title: "Legal workbench",
+    section: "Legal / Jurídico",
+    title: "Legal workbench / mesa jurídica",
     description:
       "NDA, contract clauses, and policy checks stay visible in the same dark CRM shell used by the base product.",
   },
   contracts: {
-    section: "Contracts",
+    section: "Contracts / Contratos",
     title: "Contracts / NDA / Quotations",
     description:
       "A document-oriented workspace for quotations, NDAs, procurement packs, and master agreements within the Bracco demo.",
   },
   "ia-pulse": {
-    section: "IA Pulse",
-    title: "Bracco IA Pulse",
+    section: "IA Pulse / Insights",
+    title: "Bracco IA Pulse / insights",
     description:
       "AI-assisted summaries, blockers, and next-best actions built in the same product language as the source CRM.",
   },
   reporting: {
-    section: "Reporting",
-    title: "Operational reporting",
+    section: "Reporting / Reportes",
+    title: "Operational reporting / reportes",
     description:
       "Internal process reporting focused on request volume, cycle time, and market load for the Mexico and USA demo scope.",
   },
   admin: {
-    section: "Admin",
-    title: "Admin and demo controls",
+    section: "Admin / Administración",
+    title: "Admin and demo controls / controles demo",
     description:
       "Roles, bilingual labels, environment switches, and demo operating assumptions live in a familiar CRM admin layer.",
   },
 };
 
 export const demoMetrics: DemoMetric[] = [
-  { label: "Open requests", value: "42", hint: "Mexico + USA internal process queue" },
-  { label: "Approvals due today", value: "9", hint: "Finance, legal, and DG combined" },
-  { label: "Contract packs", value: "18", hint: "Quotation, NDA, MSA, procurement docs" },
-  { label: "IA alerts", value: "5", hint: "Translation, SLA, or budget friction" },
+  { label: "Solicitudes abiertas / Open requests", value: "42", hint: "Mexico + USA internal process queue" },
+  { label: "Aprobaciones hoy / Due today", value: "9", hint: "Finance, legal, and DG combined" },
+  { label: "Paquetes contractuales / Contract packs", value: "18", hint: "Quotation, NDA, MSA, procurement docs" },
+  { label: "Alertas IA / IA alerts", value: "5", hint: "Translation, SLA, or budget friction" },
 ];
 
 export const demoRequests: DemoRequest[] = [
