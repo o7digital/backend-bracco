@@ -1,8 +1,38 @@
 ---
-import BraccoProcessHubMockup from "@/components/bracco/BraccoProcessHubMockup";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import DocumentAutomationCards from "../components/DocumentAutomationCards.astro";
+import ExecutiveHero from "../components/ExecutiveHero.astro";
+import GlobalOperations from "../components/GlobalOperations.astro";
+import PipelineBoard from "../components/PipelineBoard";
+import SectionHeading from "../components/SectionHeading.astro";
+import SentimentInsights from "../components/SentimentInsights";
+import WorkflowOverview from "../components/WorkflowOverview.astro";
 ---
 
-<BaseLayout title="Bracco Process Hub | Dashboard Mockup">
-  <BraccoProcessHubMockup client:only="react" />
+<BaseLayout title="Bracco Process Hub | Landing">
+  <main class="mx-auto flex min-h-screen max-w-[1320px] flex-col gap-10 px-5 py-6 md:px-8 md:py-8">
+    <ExecutiveHero />
+    <WorkflowOverview />
+
+    <section class="space-y-7">
+      <SectionHeading
+        eyebrow="Approval Pipeline"
+        title="Department lanes show exactly where each market packet stands."
+        description="Commercial, Procurement, Finance, Legal, and Executive Management remain visible as a single approval choreography instead of a chain of disconnected updates."
+      />
+      <PipelineBoard client:load />
+    </section>
+
+    <section class="space-y-7">
+      <SectionHeading
+        eyebrow="AI Sentiment Insights"
+        title="Narrative signals spotlight friction before it slows the approval calendar."
+        description="Placeholder AI summaries flag contract ambiguity, budget drift, and translation risk so teams can act before a packet misses its regional decision window."
+      />
+      <SentimentInsights client:load />
+    </section>
+
+    <DocumentAutomationCards />
+    <GlobalOperations />
+  </main>
 </BaseLayout>

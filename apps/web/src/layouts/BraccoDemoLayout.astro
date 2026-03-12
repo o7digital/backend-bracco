@@ -1,0 +1,16 @@
+---
+import BraccoCrmShell from "@/components/bracco-demo/BraccoCrmShell";
+import type { DemoModuleId } from "@/data/bracco-crm-demo";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  moduleId: DemoModuleId;
+}
+
+const { title, moduleId } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <BraccoCrmShell client:only="react" activeModule={moduleId} />
+</BaseLayout>
